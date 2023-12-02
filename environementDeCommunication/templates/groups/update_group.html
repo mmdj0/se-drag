@@ -1,0 +1,89 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Edit Group{% endblock title %}
+
+{% block breadcrumb %}
+  <div>
+    <h1><i class="fa fa-dashboard"></i> Gestion Des Utilisateurs</h1>
+    <p>Admin's Dashboard</p>
+  </div>
+  <ul class="app-breadcrumb breadcrumb">
+    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    <li class="breadcrumb-item"><a href="{% url 'groups:group_list' %}">Groups List</a></li>
+    <li class="breadcrumb-item">Edit Group</li>
+  </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+  <style>
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Adjust the height as needed */
+    }
+
+    .col-md-8 {
+      max-width: 600px; /* Adjust the max-width as needed */
+      width: 100%;
+    }
+
+    .tile {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .tile-body {
+      padding: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="tile">
+        <div class="tile-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Update Group</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

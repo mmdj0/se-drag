@@ -1,0 +1,130 @@
+<!-- Your Django template file -->
+
+{% extends 'base/base.html' %}
+
+{% block title %}Group Chat - {{ group.name }}{% endblock %}
+
+{% block breadcrumb %}
+    <div>
+        <h1><i class="fa fa-dashboard"></i>   <h5>GROUP CHAT: {{ group.name }}</h5></h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+    </ul>
+{% endblock breadcrumb %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <!-- Add data attributes to store group_id and user_pk -->
+                {% comment %} <div class="group_id">{{ group.id }}</div> {% endcomment %}
+                <div id="group_id" data-user="{{ var }}"></div>
+                <div id="user_pk" data-user="{{ user.pk }}"></div>
+
+                <div class="form-group">
+                    {% if messages %}
+                        <div class="jumbotron" id="chatbox" style="padding: 4px 2px;max-height: 300px; overflow-y: scroll;">
+                            {% for message in messages %}
+                                <div class="chat-message {% if message.user == request.user %}text-right{% else %}text-left{% endif %}">
+                                    <b>{{ message.user.username }}</b> : {{ message.content }}<br>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="jumbotron" id="chatbox" style="padding: 4px 2px;"></div>
+                        <b>No Messages in this Room.</b>
+                    {% endif %}
+                </div>
+
+                <br/>
+                <div class="form-group" style="width: 100%;">
+                    <input class="form-control" placeholder="Enter text here" id="my_input" type="text" required>
+                </div>
+                <br/>
+                <input class="btn btn-primary btn-lg btn-block" id="submit_button" type="button" value="Send">
+            </div>
+        </div>
+    </div>
+
+    <script defer>
+        document.addEventListener("DOMContentLoaded", function () {
+            try {
+                // Retrieve data from data attributes
+                const groupId =  document.querySelector("#group_id").dataset.user;
+                const userPk = document.querySelector("#user_pk").dataset.user;
+
+                console.log("Group ID:", groupId);
+                console.log("User PK:", userPk);
+
+                const chatbox = document.querySelector("#chatbox");
+
+                function scrollToBottom() {
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                }
+
+                scrollToBottom();
+
+                const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/group_chat/" + groupId + "/");
+
+                chatSocket.onopen = function (e) {
+                    console.log("The connection was set up successfully!");
+                };
+
+                chatSocket.onclose = function (e) {
+                    console.log("Something unexpected happened!");
+                };
+
+                document.querySelector("#my_input").focus();
+
+                document.querySelector("#my_input").onkeyup = function (e) {
+                    if (e.keyCode == 13) {
+                        e.preventDefault();
+                        document.querySelector("#submit_button").click();
+                    }
+                };
+
+                document.querySelector("#submit_button").onclick = function (e) {
+                    var messageInput = document.querySelector("#my_input").value;
+
+                    if (messageInput.length == 0) {
+                        alert("Add some input first or press the Send button!");
+                    } else {
+                        chatSocket.send(JSON.stringify({ message: messageInput, username: "{{request.user.username}}", group_id: groupId, user_pk: userPk }));
+                    }
+                };
+
+                chatSocket.onmessage = function (e) {
+                    const data = JSON.parse(e.data);
+                    var div = document.createElement("div");
+                    div.innerHTML = "<b>" + data.username + "</b> : " + data.message;
+
+                    if (data.username === "{{ request.user.username }}") {
+                        div.classList.add("chat-message", "text-right");
+                    } else {
+                        div.classList.add("chat-message", "text-left");
+                    }
+
+                    document.querySelector("#my_input").value = "";
+                    document.querySelector("#chatbox").appendChild(div);
+                    scrollToBottom();
+                };
+            } catch (error) {
+                console.error("Error parsing data attributes:", error);
+            }
+        });
+    </script>
+
+{% else %}
+    <div class="container">
+        <div class="alert alert-info d-flex justify-content-between" role="alert">
+            <h5>You are not logged in</h5>
+            <a href="/accounts/logout/">
+                <button type="button" class="btn btn-light"><a href="{% url 'login' %}">Log In</a></button>
+            </a>
+        </div>
+    </div>
+{% endif %}
+<br/>
+{% endblock %}
