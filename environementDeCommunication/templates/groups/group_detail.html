@@ -4,7 +4,7 @@
 {% block title %}Event Dashboard{% endblock title %}
 
 {% block breadcrumb %}
-    <div>
+    <div class="dash">
         <h1><i class="fa fa-dashboard"></i> Gestion Des Utilisateurs</h1>
         <p>Admins's Dashboard</p>
     </div>
@@ -30,6 +30,25 @@
         </div>
     </div>
 </div>
+
+<style>
+    .dash{
+        width: 100% !important;
+        left: -90px !important;
+    }
+    .row{
+        left: -60px !important;
+    }
+    .col-md-6{
+        width: 50% !important;
+        left: 10px !important;
+    }
+    .col-md-12{
+        width: 100% !important;
+        left: -90px !important;
+    }
+  </style>
+
 {% endblock content %}
 
 

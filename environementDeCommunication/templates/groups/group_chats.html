@@ -12,7 +12,7 @@
 {% block title %}Home{% endblock %}
 {% block breadcrumb %}
     <div>
-        <h1><i class="fa fa-dashboard"></i>   <h5>ROOM :- {{room_name}}</h5></h1>
+        <h1><i class="fa fa-dashboard"></i>   <h5>GROUP ROOM :- {{room_name}}</h5></h1>
         
     </div>
     <ul class="app-breadcrumb breadcrumb">
@@ -54,17 +54,17 @@
     <div class="row">
         <!-- Left Side: Chats List -->
         <!-- <div class="col-sm-4"> -->
-            {% if rooms %}
+            {% if group_chats %}
                 <div class="list-group">
-                    {% for room in rooms %}
+                    {% for group_chat in group_chats %}
                         <div class="card">
                             <div class="card-header">
-                            room
+                            group room
                             </div>
                             <div class="card-body">
-                            <h5 class="card-title">{{ room.name }}</h5>
-                            <p class="card-text">It is a Public group for this Project.</p>
-                            <a href="/chat/{{room.id}}" class="btn btn-primary">chat</a>
+                            <h5 class="card-title">{{ group_chat.name }}</h5>
+                            <p class="card-text">It is a group chat for this Project.</p>
+                            <a href="/groups/group_chat/{{group_chat.id}}" class="btn btn-primary">chat</a>
                             
                             </div>
                         </div>

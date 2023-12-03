@@ -1,12 +1,12 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
-{% block title %}Event Dashboard{% endblock title %}
+{% block title %}Admins Dashboard{% endblock title %}
 
 {% block breadcrumb %}
-    <div>
+    <div class="dash">
         <h1><i class="  fa fa-dashboard"></i> Dashboard</h1>
-        <p>Event Dashboard</p>
+        <p>Admins Dashboard</p>
     </div>
     <ul class="app-breadcrumb breadcrumb">
         <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -89,6 +89,24 @@
     {% endif %}
 
 </div>
+
+<style>
+    .dash{
+        width: 100% !important;
+        left: -90px !important;
+    }
+    .row{
+        left: -60px !important;
+    }
+    .col-md-6{
+        width: 50% !important;
+        left: 10px !important;
+    }
+    .col-md-12{
+        width: 100% !important;
+        left: -90px !important;
+    }
+</style>
 {% endblock content %}
 
 {% block extrascripts %}

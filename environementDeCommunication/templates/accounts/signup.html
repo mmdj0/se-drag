@@ -1,7 +1,7 @@
 {% extends 'base\base.html' %}
 {% block breadcrumb %}
 
-<div>
+<div class="dash">
     <h1><i class="app-app-menu__icon fa-sharp fa-solid fa-user-plus"></i> Add User</h1>
     <p>As an Admin you can add new users</p>
 </div>
@@ -15,7 +15,7 @@
 
 <div class='content_msg' id='msg' style='width:88%; margin-left : 180px; margin-bottom: 20px;'>
     {% include 'accounts/messages.html'%}
-  </div>
+</div>
 <div class="pwd_change">
 <form action="#" method="post" class="signup-form">
     {% csrf_token %}
@@ -62,6 +62,23 @@
     </div>
 </form>
 </div>
+<style>
+    .dash{
+        width: 100% !important;
+        left: -90px !important;
+    }
+    .row{
+        left: -60px !important;
+    }
+    .col-md-6{
+        width: 50% !important;
+        left: 10px !important;
+    }
+    .pwd-change{
+        width: 100% !important;
+        left: -90px !important;
+    }
+  </style>
 {% endblock %}
 {% block extrascripts%}
 <script>

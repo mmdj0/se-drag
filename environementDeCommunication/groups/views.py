@@ -91,3 +91,9 @@ class GroupChatView(View):
         group_id = kwargs.get('group_id')
         print("Group ID:", group_id)  # Check if group_id is being printed in the console
         return render(request, self.template_name, {'group_id': group_id})
+    
+
+def group_chats(request):
+    if request.method == 'GET':
+        group_chats=Group.objects.all()
+        return render(request, "groups/group_chats.html",{"group_chats":group_chats})
